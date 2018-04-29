@@ -2,8 +2,8 @@ import numpy as np
 from PIL import ImageGrab
 import cv2
 import time
-from sendKeys import PressKey, ReleaseKey, A, Z, L, R
 from getkeys import pressed_keys
+from win32_screen import grab_screen
 import os
 
 file_name = 'training_data.npy'
@@ -43,7 +43,7 @@ def main():
     paused = False
     while True:
         if not paused:
-            screen = np.array(ImageGrab.grab(bbox=(0,30,1024,768)))
+            screen = grab_screen(region=(0, 30, 1024, 768))
             screen = process_img(screen)
 
             #print('Loop took {} seconds'.format(time.time()-last_time))
@@ -52,6 +52,7 @@ def main():
 
             keys = pressed_keys()
             output = keys_to_output(keys)
+            #print(output)
             training_data.append([screen, output])
 
             if len(training_data) % 1000 == 0:
