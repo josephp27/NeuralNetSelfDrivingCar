@@ -9,14 +9,14 @@ Run:
 
 ## reader32.py
 
-*Uses Win32 API to grab screen
+* Uses Win32 API to grab screen
 
-*1024x768 Resolution
+* 1024x768 Resolution
 
 ## reader.py
 
-*Uses OpenCV to grab screen
+* Uses OpenCV to grab screen
 
-*1024x768 Resolution
+* 1024x768 Resolution
 
 
