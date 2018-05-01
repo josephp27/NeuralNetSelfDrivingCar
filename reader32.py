@@ -10,6 +10,7 @@ import os
 starting_value = 1
 file_name = 'training_data-{}.npy'.format(starting_value)
 
+
 training_data = []
 
 def process_img(original_img):
@@ -18,16 +19,16 @@ def process_img(original_img):
 
 def keys_to_output(keys):
     #[A,Z,L,R] boolean values.
-    output = [0, 0, 0, 0]
-
-    if 'Z' in keys:
-        output[1] = 1
-    if '%' in keys:
-        output[2] = 1
-    if '\'' in keys:
-        output[3] = 1
-    if 'A' in keys:
+    output = [0,0,0,0]
+    print(keys)
+    if 'W' in keys:
         output[0] = 1
+    if '(' in keys:
+        output[1] = 1
+    if 'A' in keys:
+        output[2] = 1
+    if 'D' in keys:
+        output[3] = 1
     return output
 
 def main(file_name, starting_value):
