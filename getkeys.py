@@ -1,7 +1,7 @@
 import win32api as wapi
 import time
 
-keyList = ["%", '\'', 'A', 'Z', 'T']
+keyList = ['A', 'D', 'W', '(', 'T']
 
 
 def pressed_keys():
