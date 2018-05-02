@@ -8,10 +8,10 @@ import time
 
 SendInput = ctypes.windll.user32.SendInput
 
-A = 0x1E
-Z = 0x2C
-L = 0x33
-R = 0x34
+W = 0x11 #Gas
+A = 0x1E #Left
+N = 0x0A #Brake (n for 9 or '(')
+D = 0x20 #Right
 
 NP_2 = 0x50
 NP_4 = 0x4B
