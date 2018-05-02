@@ -7,9 +7,9 @@ from alexnet import alexnet
 WIDTH = 227
 HEIGHT = 227
 LR = 1e-3
-EPOCHS = 10
+EPOCHS = 500
 MODEL_NAME = 'f1-car-{}-{}-{}-epochs-300K-data.model'.format(LR, 'alexnetv2',EPOCHS)
-n_btch = 6
+n_btch = 71
 
 
 model = alexnet(WIDTH, HEIGHT, LR, output = 4 )
@@ -17,7 +17,7 @@ model = alexnet(WIDTH, HEIGHT, LR, output = 4 )
 for epoch in range(0,EPOCHS):
     for i in range(1,n_btch+1):
         
-        train_data = np.load('training_data-{}.npy'.format(i))
+        train_data = np.load('data/training_data-{}.npy'.format(i))
         train = train_data[:-50]
         test = train_data[-50:]
         X = np.array([i[0] for i in train]).reshape(-1,WIDTH,HEIGHT,1)

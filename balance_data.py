@@ -5,9 +5,9 @@ import pandas as pd
 from collections import Counter
 from random import shuffle
 
-n_btch = 6
+n_btch = 71
 for i in range (1,n_btch+1):
-    train_data = np.load('training_data-{}.npy'.format(i))
+    train_data = np.load('data/training_data-{}.npy'.format(i))
 
     df = pd.DataFrame(train_data)
     print(df.head())
@@ -49,4 +49,4 @@ for i in range (1,n_btch+1):
     final_data = forwards + lefts + rights + backwards
     shuffle(final_data)
 
-    np.save('training_data-{}.npy'.format(i), final_data)
+    np.save('data/training_data-{}.npy'.format(i), final_data)
