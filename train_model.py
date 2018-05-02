@@ -9,7 +9,7 @@ HEIGHT = 227
 LR = 1e-3
 EPOCHS = 10
 MODEL_NAME = 'f1-car-{}-{}-{}-epochs-300K-data.model'.format(LR, 'alexnetv2',EPOCHS)
-n_btch = 6
+n_btch = 71
 
 
 model = alexnet(WIDTH, HEIGHT, LR, output = 4 )

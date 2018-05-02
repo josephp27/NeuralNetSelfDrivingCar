@@ -5,7 +5,7 @@ import pandas as pd
 from collections import Counter
 from random import shuffle
 
-n_btch = 6
+n_btch = 71
 for i in range (1,n_btch+1):
     train_data = np.load('training_data-{}.npy'.format(i))
 
