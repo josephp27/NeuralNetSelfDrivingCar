@@ -5,9 +5,9 @@ import pandas as pd
 from collections import Counter
 from random import shuffle
 
-n_btch = 6
+n_btch = 71
 for i in range (1,n_btch+1):
-    train_data = np.load('training_data-{}.npy'.format(i))
+    train_data = np.load('data/training_data-{}.npy'.format(i))
 
     df = pd.DataFrame(train_data)
     print(df.head())
@@ -35,18 +35,9 @@ for i in range (1,n_btch+1):
         else:
             print('no matches')
 
-    if len(rights) > len(lefts) and len(rights)>len(backwards):
-        forwards = forwards[:len(rights)]
-    if len(lefts) > len(rights) and len(lefts)>len(backwards):
-        forwards = forwards[:len(lefts)]
-    if len(backwards) > len(lefts) and len(backwards)>len(rights):
-        forwards = forwards[:len(backwards)]
-##    forwards = forwards[:len(rights)][:len(lefts)][:len(backwards)]
-##    lefts = lefts[:len(forwards)]
-##    rights = rights[:len(forwards)]
-##    backwards = backwards[:len(forwards)]
-    
+    forwards = forwards[:max(len(lefts), len(rights), len(backwards))]
+
     final_data = forwards + lefts + rights + backwards
     shuffle(final_data)
 
-    np.save('training_data-{}.npy'.format(i), final_data)
+    np.save('data/training_data-{}.npy'.format(i), final_data)
