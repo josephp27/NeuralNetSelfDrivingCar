@@ -35,17 +35,8 @@ for i in range (1,n_btch+1):
         else:
             print('no matches')
 
-    if len(rights) > len(lefts) and len(rights)>len(backwards):
-        forwards = forwards[:len(rights)]
-    if len(lefts) > len(rights) and len(lefts)>len(backwards):
-        forwards = forwards[:len(lefts)]
-    if len(backwards) > len(lefts) and len(backwards)>len(rights):
-        forwards = forwards[:len(backwards)]
-##    forwards = forwards[:len(rights)][:len(lefts)][:len(backwards)]
-##    lefts = lefts[:len(forwards)]
-##    rights = rights[:len(forwards)]
-##    backwards = backwards[:len(forwards)]
-    
+    forwards = forwards[:max(len(lefts), len(rights), len(backwards))]
+
     final_data = forwards + lefts + rights + backwards
     shuffle(final_data)
 

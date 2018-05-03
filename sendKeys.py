@@ -64,3 +64,37 @@ def ReleaseKey(hexKeyCode):
     ii_.ki = KeyBdInput( 0, hexKeyCode, 0x0008 | 0x0002, 0, ctypes.pointer(extra) )
     x = Input( ctypes.c_ulong(1), ii_ )
     ctypes.windll.user32.SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
+
+def releaseAllKeys():
+    ReleaseKey(W)
+    ReleaseKey(A)
+    ReleaseKey(N)
+    ReleaseKey(D)
+
+def straight():
+    releaseAllKeys()
+    PressKey(W)
+
+def left():
+    releaseAllKeys()
+    PressKey(W)
+    PressKey(A)
+
+def right():
+    releaseAllKeys()
+    PressKey(W)
+    PressKey(D)
+
+def brake():
+    releaseAllKeys()
+    PressKey(N)
+
+def brakeTurnLeft():
+    releaseAllKeys()
+    PressKey(N)
+    PressKey(A)
+
+def brakeTurnRight():
+    releaseAllKeys()
+    PressKey(N)
+    PressKey(D)

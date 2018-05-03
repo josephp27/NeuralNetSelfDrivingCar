@@ -2,7 +2,7 @@ import numpy as np
 from win32_screen import grab_screen
 import cv2
 import time
-from sendKeys import PressKey,ReleaseKey, W, A, N, D
+from sendKeys import PressKey,ReleaseKey, straight, left, right, brake
 from alexnet import alexnet
 from getkeys import pressed_keys
 import tensorflow as tf
@@ -10,7 +10,7 @@ import tensorflow as tf
 WIDTH = 227
 HEIGHT = 227
 LR = 1e-3
-EPOCHS = 500
+EPOCHS = 75
 MODEL_NAME = 'f1-car-{}-{}-{}-epochs-300K-data.model'.format(LR, 'alexnetv2',EPOCHS)
 n_btch = 71
 
@@ -19,43 +19,7 @@ config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 
 model = alexnet(WIDTH, HEIGHT, LR, output = 4)
-model.load(MODEL_NAME)
-
-
-
-def releaseAllKeys():
-    ReleaseKey(W)
-    ReleaseKey(A)
-    ReleaseKey(N)
-    ReleaseKey(D)
-
-def straight():
-    releaseAllKeys()
-    PressKey(W)
-
-def left():
-    releaseAllKeys()
-    PressKey(W)
-    PressKey(A)
-
-def right():
-    releaseAllKeys()
-    PressKey(W)
-    PressKey(D)
-
-def brake():
-    releaseAllKeys()
-    PressKey(N)
-
-def brakeTurnLeft():
-    releaseAllKeys()
-    PressKey(N)
-    PressKey(A)
-
-def brakeTurnRight():
-    releaseAllKeys()
-    PressKey(N)
-    PressKey(D)
+model.load('weights/' + MODEL_NAME)
 
 def process_img(original_img):
     processed_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
@@ -74,6 +38,7 @@ def main():
         if not paused:
             screen = grab_screen(region=(0, 30, 1024, 768))
             screen = process_img(screen)
+            #cv2.imshow('window', screen)
 
             #print('loop took {} seconds'.format(time.time()-last_time))
             last_time = time.time()
@@ -81,18 +46,19 @@ def main():
             prediction = model.predict([screen.reshape(WIDTH, HEIGHT, 1)])[0]
             print(prediction)
 
-            turn_thresh = 0.38
+            turn_thresh = 0.11
             fwd_thresh = 0.50
-            brk_thresh = 0.50
-            
-            if prediction[2] > turn_thresh:
+            brk_thresh = 0.002
+
+            if prediction[1] > brk_thresh:
+                brake()            
+            elif prediction[2] > turn_thresh:
                 left()
             elif prediction[3] > turn_thresh:
                 right()
             elif prediction[0] > fwd_thresh:
                 straight()
-            elif prediction[1] > brk_thresh:
-                brake()
+
 
 
         keys = keys = pressed_keys()
@@ -108,7 +74,9 @@ def main():
                 ReleaseKey(W)
                 ReleaseKey(D)
                 time.sleep(1)
-        time.sleep(0.09)
-
+                
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            cv2.destroyAllWindows()
+            break
 main()     
 
