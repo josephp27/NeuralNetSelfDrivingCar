@@ -68,25 +68,28 @@ def main(file_name, starting_value):
                     starting_value += 1
                     file_name = 'training_data-{}.npy'.format(starting_value)
 
+            print('{} FPS: {}                            '.format(output, 1.0 / (time.time()-last_time)), end="\r")
+
 
         keys = pressed_keys()
 
         if 'T' in keys:
             if paused:
                 paused = False
-                print('unpaused!')
+                print('Unpaused!')
+                os.system('cls')
                 time.sleep(1)
             else:
-                print('Pausing!')
+                print('\nPausing!', end = "")
                 paused = True
                 time.sleep(1)
-                print(len(training_data))
+                print(' Length: ' + str(len(training_data)))
                 np.save(file_name, training_data)
 
         if cv2.waitKey(25) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
-        print('{} FPS: {}                            '.format(output, 1.0 / (time.time()-last_time)), end="\r")
+        
 
 main(file_name, starting_value)
 
