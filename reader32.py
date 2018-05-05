@@ -9,7 +9,7 @@ import os
 
 starting_value = 1
 file_name = 'training_data-{}.npy'.format(starting_value)
-
+os.system('cls')
 
 training_data = []
 
@@ -20,7 +20,6 @@ def process_img(original_img):
 def keys_to_output(keys):
     #[A,Z,L,R] boolean values.
     output = [0,0,0,0]
-    print(keys)
     if 'W' in keys:
         output[0] = 1
     if '(' in keys:
@@ -37,7 +36,7 @@ def main(file_name, starting_value):
     training_data = []
     
     for i in list(range(4))[::-1]:
-        print('Starting in: ' + str(i + 1))
+        print('Starting in: ' + str(i + 1), end='\r')
         time.sleep(1)
 
 
@@ -45,25 +44,26 @@ def main(file_name, starting_value):
     paused = False
     while True:
         if not paused:
-            screen = grab_screen(region=(0, 30, 1024, 768))
+            last_time = time.time()
+            screen = grab_screen(region=(0, 30, 1024, 798))
             screen = process_img(screen)
 
-            print('Loop took {} seconds'.format(time.time()-last_time))
-            last_time = time.time()
-            screen = cv2.resize(screen, (227,227), interpolation = cv2.INTER_AREA)
+            screen = cv2.resize(screen, (480,360), interpolation = cv2.INTER_AREA)
+            
+            #disable this line for faster FPS!!!!!!!!
             cv2.imshow('window', screen)
-            #paused=True
+
+
             keys = pressed_keys()
             output = keys_to_output(keys)
-            print(output)
+
             training_data.append([screen, output])
 
             if len(training_data) % 100 == 0:
-                print(len(training_data))
-                
-                if len(training_data) == 500:
+                if len(training_data) == 1000:
                     np.save(file_name,training_data)
-                    print('SAVED')
+                    os.system('cls')
+                    print('SAVED {}'.format(file_name))
                     training_data = []
                     starting_value += 1
                     file_name = 'training_data-{}.npy'.format(starting_value)
@@ -86,6 +86,7 @@ def main(file_name, starting_value):
         if cv2.waitKey(25) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
+        print('{} FPS: {}                            '.format(output, 1.0 / (time.time()-last_time)), end="\r")
 
 main(file_name, starting_value)
 
