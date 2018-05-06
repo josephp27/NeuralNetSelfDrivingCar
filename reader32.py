@@ -51,7 +51,7 @@ def main(file_name, starting_value):
             screen = cv2.resize(screen, (320,240), interpolation = cv2.INTER_AREA)
             
             #disable this line for faster FPS!!!!!!!!
-            cv2.imshow('window', screen)
+            #cv2.imshow('window', screen)
 
 
             keys = pressed_keys()
