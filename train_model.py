@@ -29,15 +29,15 @@ for epoch in range(EPOCHS):
         
         train = train_data[:-100]
         test = train_data[-100:]
-        X = np.array([i[0] for i in train]).reshape(-1,WIDTH,HEIGHT,1)
+        X = np.array([i[0] for i in train]).reshape(-1,WIDTH,HEIGHT,3)
         Y = [i[1] for i in train]
 
-        test_x = np.array([i[0] for i in test]).reshape(-1,WIDTH,HEIGHT,1)
+        test_x = np.array([i[0] for i in test]).reshape(-1,WIDTH,HEIGHT,3)
         test_y = [i[1] for i in test]
 
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         model.fit(X, Y, validation_data=(test_x, test_y), 
-            verbose=1,  batch_size=256)
+            verbose=1,  batch_size=512)
 
     os.chdir('weights')
     model.save(MODEL_NAME)
