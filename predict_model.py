@@ -2,7 +2,7 @@ import numpy as np
 from win32_screen import grab_screen
 import cv2
 import time
-from sendKeys import PressKey,ReleaseKey, straight, left, right, brake
+from sendKeys import PressKey,ReleaseKey, straight, left, right, brake, releaseAllKeys
 from alexnet import alexnet
 from getkeys import pressed_keys
 import tensorflow as tf
@@ -44,19 +44,20 @@ def main():
             last_time = time.time()
 
             prediction = model.predict([screen.reshape(WIDTH, HEIGHT, 1)])[0]
-            print(prediction)
+##            print(prediction)
 
-            turn_thresh = 0.11
-            fwd_thresh = 0.50
+            turn_thresh = 0.09
+            fwd_thresh = 0.80
             brk_thresh = 0.002
-
+            releaseAllKeys()
             if prediction[1] > brk_thresh:
                 brake()            
-            elif prediction[2] > turn_thresh:
-                left()
-            elif prediction[3] > turn_thresh:
-                right()
-            elif prediction[0] > fwd_thresh:
+            if prediction[2] > turn_thresh or prediction[3] > turn_thresh:
+                if prediction[2] > prediction[3]:
+                    left()
+                else:
+                    right()
+            if prediction[0] > fwd_thresh:
                 straight()
 
 
@@ -70,9 +71,7 @@ def main():
                 time.sleep(1)
             else:
                 paused = True
-                ReleaseKey(A)
-                ReleaseKey(W)
-                ReleaseKey(D)
+                releaseAllKeys()
                 time.sleep(1)
                 
         if cv2.waitKey(25) & 0xFF == ord('q'):
