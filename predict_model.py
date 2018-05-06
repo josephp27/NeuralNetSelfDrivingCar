@@ -6,23 +6,27 @@ from sendKeys import PressKey,ReleaseKey, straight, left, right, brake, releaseA
 from alexnet import alexnet
 from getkeys import pressed_keys
 import tensorflow as tf
+from mobilenet import MobileNet
+import keras
 
-WIDTH = 227
-HEIGHT = 227
+WIDTH = 320
+HEIGHT = 240
 LR = 1e-3
-EPOCHS = 75
-MODEL_NAME = 'f1-car-{}-{}-{}-epochs-300K-data.model'.format(LR, 'alexnetv2',EPOCHS)
+EPOCHS = 10
+MODEL_NAME = 'f1-car-{}-{}-{}-epochs-300K-data.model'.format(LR, 'mobilenet',EPOCHS)
 n_btch = 71
 
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 
-model = alexnet(WIDTH, HEIGHT, LR, output = 4)
+
+img_input = keras.layers.Input(shape=(WIDTH, HEIGHT, 3))
+model = MobileNet(input_tensor=img_input,classes=4) ##alexnet(WIDTH, HEIGHT, LR, output = 4)
 model.load('weights/' + MODEL_NAME)
 
 def process_img(original_img):
-    processed_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
+    processed_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2RGB)
     processed_img = cv2.resize(processed_img, (WIDTH, HEIGHT), interpolation = cv2.INTER_AREA)
     return processed_img
 
