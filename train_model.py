@@ -36,8 +36,8 @@ for epoch in range(EPOCHS):
         test_y = [i[1] for i in test]
 
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-        model.fit(X, Y, validation_data=(test_x, test_y), 
-            verbose=1,  batch_size=512)
+        model.fit(X, np.array(Y), validation_data=(test_x, np.array(test_y)), 
+            verbose=1,  batch_size=32)
 
     os.chdir('weights')
     model.save(MODEL_NAME)
