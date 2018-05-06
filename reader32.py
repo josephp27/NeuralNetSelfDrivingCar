@@ -14,7 +14,7 @@ os.system('cls')
 training_data = []
 
 def process_img(original_img):
-    processed_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
+    processed_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2RGB)
     return processed_img
 
 def keys_to_output(keys):
@@ -48,7 +48,7 @@ def main(file_name, starting_value):
             screen = grab_screen(region=(0, 30, 1024, 798))
             screen = process_img(screen)
 
-            screen = cv2.resize(screen, (480,360), interpolation = cv2.INTER_AREA)
+            screen = cv2.resize(screen, (320,240), interpolation = cv2.INTER_AREA)
             
             #disable this line for faster FPS!!!!!!!!
             #cv2.imshow('window', screen)
