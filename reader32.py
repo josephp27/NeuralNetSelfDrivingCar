@@ -5,11 +5,13 @@ import time
 from getkeys import pressed_keys
 from win32_screen import grab_screen
 import os
+import threading
 
 
 starting_value = 1
 file_name = 'training_data-{}.npy'.format(starting_value)
 os.system('cls')
+os.chdir('data/')
 
 training_data = []
 
@@ -29,6 +31,9 @@ def keys_to_output(keys):
     if 'D' in keys:
         output[3] = 1
     return output
+
+def save_file(file_name, training_data):
+    np.save(file_name, training_data)
 
 def main(file_name, starting_value):
     file_name = file_name
@@ -51,24 +56,25 @@ def main(file_name, starting_value):
             screen = cv2.resize(screen, (320,240), interpolation = cv2.INTER_AREA)
             
             #disable this line for faster FPS!!!!!!!!
-            cv2.imshow('window', screen)
-
+            #cv2.imshow('window', screen)
 
             keys = pressed_keys()
             output = keys_to_output(keys)
 
             training_data.append([screen, output])
 
-            if len(training_data) % 100 == 0:
-                if len(training_data) == 1000:
-                    np.save(file_name,training_data)
-                    os.system('cls')
-                    print('SAVED {}'.format(file_name))
-                    training_data = []
-                    starting_value += 1
-                    file_name = 'training_data-{}.npy'.format(starting_value)
+            if len(training_data) == 1000:
+                os.system('cls')
 
-            print('{} FPS: {}                            '.format(output, 1.0 / (time.time()-last_time)), end="\r")
+                #save_file(file_name,training_data)    
+                t = threading.Thread(target=save_file, args=(file_name,training_data)).start()
+                print('SAVED {}'.format(file_name))
+                starting_value += 1
+                training_data = []
+
+                file_name = 'training_data-{}.npy'.format(starting_value)
+
+            print('{} FPS: {}                            '.format(output, 1.0 // (time.time()-last_time)), end="\r")
 
 
         keys = pressed_keys()
