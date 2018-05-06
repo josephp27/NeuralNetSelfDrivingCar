@@ -11,7 +11,7 @@ import keras
 WIDTH = 320
 HEIGHT = 240
 LR = 1e-3
-EPOCHS = 10
+EPOCHS = 2
 MODEL_NAME = 'f1-car-{}-{}-{}-epochs-300K-data.model'.format(LR, 'mobilenet',EPOCHS)
 
 config = tf.ConfigProto()
@@ -22,7 +22,7 @@ img_input = keras.layers.Input(shape=(WIDTH, HEIGHT, 3))
 model = MobileNet(input_tensor=img_input,classes=4) ##alexnet(WIDTH, HEIGHT, LR, output = 4)
 
 for epoch in range(EPOCHS):
-    print('========================== Epoch : {} =========================='. format(epoch))    
+    print('\n================================================ Epoch : {}/{} ================================================'. format(epoch + 1, EPOCHS))    
     for filename in os.listdir(os.getcwd() + '/data/'):
         train_data = np.load('data/' + filename)
         print('LOADED: {}'.format(filename))
