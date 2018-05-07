@@ -16,6 +16,7 @@ EPOCHS = 75
 MODEL_NAME = 'f1-car-{}-{}-{}-epochs-300K-data'.format(LR, 'mobilenet',EPOCHS)
 n_btch = 15
 
+
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
@@ -23,10 +24,11 @@ session = tf.Session(config=config)
 img_input = keras.layers.Input(shape=(WIDTH, HEIGHT, 3))
 model = MobileNet(input_tensor=img_input,classes=4) ##alexnet(WIDTH, HEIGHT, LR, output = 4)
 
-for epoch in range(EPOCHS):    
-    for i in range(1,n_btch+1):
-        train_data = np.load('data/training_data-{}.npy'.format(i))
-        print('LOADED: training_data-{}.npy'.format(i))
+for epoch in range(EPOCHS):
+    print('\n================================================ Epoch : {}/{} ================================================'. format(epoch + 1, EPOCHS))    
+    for filename in os.listdir(os.getcwd() + '/data/'):
+        train_data = np.load('data/' + filename)
+        print('LOADED: {}'.format(filename))
         
         train = train_data[:-100]
         test = train_data[-100:]
