@@ -55,7 +55,7 @@ def main():
             last_time = time.time()
 
             prediction = model.predict([screen.reshape(-1,WIDTH, HEIGHT, 3)])[0]
-##            print(prediction)
+            ##print(prediction)
 
             turn_thresh = 0.09
             fwd_thresh = 0.80
