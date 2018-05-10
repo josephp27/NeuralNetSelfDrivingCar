@@ -10,7 +10,7 @@ SendInput = ctypes.windll.user32.SendInput
 
 W = 0x11 #Gas
 A = 0x1E #Left
-N = 0x50 #Brake (n for 9 or '(')
+N = 0x0A #Brake (n for 9 or '(')
 D = 0x20 #Right
 
 NP_2 = 0x50
@@ -89,6 +89,16 @@ def brake():
 ##    releaseAllKeys()
     PressKey(N)
 
+def forwardTurnLeft():
+    releaseAllKeys()
+    PressKey(W)
+    PressKey(A)
+
+def forwardTurnRight():
+    releaseAllKeys()
+    PressKey(W)
+    PressKey(D)
+    
 def brakeTurnLeft():
     releaseAllKeys()
     PressKey(N)

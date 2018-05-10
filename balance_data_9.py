@@ -17,52 +17,39 @@ no_op = []
 for filename in os.listdir(os.getcwd() + '/data/'):
     print(filename)
     train_data = np.load('data/' + filename)
-    ## [fwd,brake,left,right,wa,wd,sa,sd,nop]
+
     for data in train_data:
         img = data[0]
         choice = data[1]
 
         if choice == [0, 1, 0, 0]:
-            choice = [0,1,0,0,0,0,0,0,0]
             backwards.append([img,choice])
 
         elif choice == [0, 0, 0 ,0]:
-            choice = [0,0,0,0,0,0,0,0,1]
             no_op.append([img, choice])
 
         elif choice == [0, 0, 1, 0]:
-            choice = [0,0,1,0,0,0,0,0,0]
             lefts.append([img,choice])
             
         elif choice == [0, 0, 0 ,1]:
-            choice = [0,0,0,1,0,0,0,0,0]
             rights.append([img, choice])
 
         elif choice == [1, 0, 0, 0]:
-            choice = [1,0,0,0,0,0,0,0,0]
             forwards.append([img,choice])
             
         elif choice == [1, 0, 1 ,0]:
-            choice = [0,0,0,0,1,0,0,0,0]
             left_forwards.append([img, choice])
 
         elif choice == [1, 0, 0 ,1]:
-            choice = [0,0,0,0,0,1,0,0,0]
             right_forwards.append([img, choice])        
 
         elif choice == [0, 1, 0 ,1]:
-            choice = [0,0,0,0,0,0,0,1,0]
             backwards_right.append([img, choice])
 
         elif choice == [0, 1, 1, 0]:
-            choice = [0,0,0,0,0,0,1,0,0]
             backwards_left.append([img, choice])
         
 smallest_class = len(backwards_right)
-
-print('Lefts {} Rights {} Backwards {} Forwards {} FL {} FR {} BL {} BR {} NOOP {}'.format(len(lefts), 
-    len(rights), len(backwards), len(forwards), len(left_forwards), 
-    len(right_forwards), len(backwards_left), len(backwards_right), len(no_op) ))
 
 lefts = lefts[:smallest_class]
 left_forwards = left_forwards[:smallest_class]
