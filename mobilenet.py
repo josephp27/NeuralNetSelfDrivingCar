@@ -120,7 +120,7 @@ def MobileNet(input_tensor=None, input_shape=None, alpha=1, shallow=False, class
     x = Activation('relu')(x)
 
     x = GlobalAveragePooling2D()(x)
-    out = Dense(classes, activation='sigmoid')(x)
+    out = Dense(classes, activation='softmax')(x)
 
     if input_tensor is not None:
         inputs = get_source_inputs(input_tensor)

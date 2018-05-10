@@ -2,7 +2,7 @@ import numpy as np
 from win32_screen import grab_screen
 import cv2
 import time
-from sendKeys import PressKey,ReleaseKey, straight, left, right, brake, releaseAllKeys
+from sendKeys import PressKey,ReleaseKey, straight, left, right, brake, releaseAllKeys, forwardTurnLeft, forwardTurnRight, brakeTurnLeft, brakeTurnRight 
 from alexnet import alexnet
 from mobilenet import MobileNet
 from getkeys import pressed_keys
@@ -55,21 +55,55 @@ def main():
             last_time = time.time()
 
             prediction = model.predict([screen.reshape(-1,WIDTH, HEIGHT, 3)])[0]
-            ##print(prediction)
+            print(prediction)
 
-            turn_thresh = 0.09
-            fwd_thresh = 0.80
-            brk_thresh = 0.002
+##            left_thresh = 0.35
+##            right_thresh = 0.35
+            
+            fwd_thresh = 0.000001
+            brk_thresh = 0.001
+
+            turn_thresh = 0.9
+            
+##            fwd_left_thresh = 0.35
+##            fwd_right_thresh = 0.9
+##            brk_left_thresh = 0.35
+##            brk_right_thresh = 0.35
+            
             releaseAllKeys()
-            if prediction[1] > brk_thresh:
-                brake()            
-            if prediction[2] > turn_thresh or prediction[3] > turn_thresh:
-                if prediction[2] > prediction[3]:
+            
+            
+            if prediction[2] > turn_thresh or prediction[3]>turn_thresh:
+                if prediction[2]>prediction[3]:
                     left()
                 else:
                     right()
+            if prediction[1] > brk_thresh and prediction[1]>=prediction[2]:
+                brake()
             if prediction[0] > fwd_thresh:
                 straight()
+##            time.sleep(0.03)
+
+
+            
+##            if prediction[1] > brk_thresh:
+##                brake()            
+##            if prediction[2] > left_thresh:
+##                left()
+##            if prediction[3] > right_thresh:
+##                right()
+##            if prediction[0] > fwd_thresh:
+##                straight()
+
+                
+##            if prediction[4] > fwd_left_thresh:
+##                forwardTurnLeft()
+##            if prediction[5] > fwd_right_thresh:
+##                forwardTurnRight()
+##            if prediction[6] > brk_left_thresh:
+##                brakeTurnLeft()
+##            if prediction[7] > brk_right_thresh:
+##                brakeTurnRight()
 
 
 
