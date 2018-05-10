@@ -65,3 +65,5 @@ final_data = lefts + left_forwards + rights + right_forwards + forwards + backwa
 chunks = np.array_split(final_data, 5)
 for i in range(len(chunks)):        
     np.save('data/training_data-balanced-{}.npy'.format(i), chunks[i])
+
+
