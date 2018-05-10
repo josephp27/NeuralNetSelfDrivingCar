@@ -57,19 +57,10 @@ def main():
             prediction = model.predict([screen.reshape(-1,WIDTH, HEIGHT, 3)])[0]
             print(prediction)
 
-##            left_thresh = 0.35
-##            right_thresh = 0.35
-            
-            fwd_thresh = 0.000001
+            fwd_thresh = 0.00001
             brk_thresh = 0.001
 
-            turn_thresh = 0.9
-            
-##            fwd_left_thresh = 0.35
-##            fwd_right_thresh = 0.9
-##            brk_left_thresh = 0.35
-##            brk_right_thresh = 0.35
-            
+            turn_thresh = 0.9        
             releaseAllKeys()
             
             
